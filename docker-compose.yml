@@ -1,0 +1,90 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://${REDIS_HOST}:6379
+      - RAILS_ENV=${RAILS_ENV}
+      - EXTERNAL_API_URL=${EXTERNAL_API_URL}
+      - EXTERNAL_API_TIMEOUT=${EXTERNAL_API_TIMEOUT}
+      - EXTERNAL_API_RETRIES=${EXTERNAL_API_RETRIES}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - LOG_LEVEL=${LOG_LEVEL}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - bundle_cache:/usr/local/bundle
+    command: rails server -b 0.0.0.0
+
+  frontend:
+    build: ./frontend
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  sidekiq:
+    build: ./backend
+    command: bundle exec sidekiq
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://${REDIS_HOST}:6379
+      - RAILS_ENV=${RAILS_ENV}
+      - EXTERNAL_API_URL=${EXTERNAL_API_URL}
+      - EXTERNAL_API_TIMEOUT=${EXTERNAL_API_TIMEOUT}
+      - EXTERNAL_API_RETRIES=${EXTERNAL_API_RETRIES}
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - LOG_LEVEL=${LOG_LEVEL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - bundle_cache:/usr/local/bundle
+
+volumes:
+  postgres_data:
+  redis_data:
+  bundle_cache: 

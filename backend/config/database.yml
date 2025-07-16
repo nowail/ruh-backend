@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch('DATABASE_USERNAME') { 'postgres' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { '' } %>
+  host: <%= ENV.fetch('DATABASE_HOST') { 'localhost' } %>
+  port: <%= ENV.fetch('DATABASE_PORT') { 5432 } %>
+
+development:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DB') { 'wellness_platform_development' } %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DB') { 'wellness_platform_test' } %>_test
+
+production:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DB') { 'wellness_platform_production' } %>
+  username: <%= ENV.fetch('DATABASE_USERNAME') { 'wellness_platform' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { ENV['WELLNESS_PLATFORM_DATABASE_PASSWORD'] } %>
