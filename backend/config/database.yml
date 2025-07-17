@@ -17,4 +17,6 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  database: <%= ENV.fetch('POSTGRES_DB') { 'wellness_platform_production' } %>
+  username: <%= ENV.fetch('DATABASE_USERNAME') { 'wellness_platform' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { ENV['WELLNESS_PLATFORM_DATABASE_PASSWORD'] } %>

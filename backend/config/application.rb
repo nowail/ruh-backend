@@ -19,8 +19,8 @@ module WellnessPlatform
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # API-only mode (disabled to serve React frontend)
-    config.api_only = false
+    # API-only mode
+    config.api_only = true
 
     # CORS configuration
     config.middleware.insert_before 0, Rack::Cors do
