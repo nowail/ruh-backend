@@ -38,6 +38,15 @@ This project implements a full-stack wellness platform that seamlessly integrate
 - **Production Ready**: Docker containerization with proper security
 - **Extensible**: Modular architecture for easy feature additions
 
+## 🌐 Accessing the Application
+
+- **Frontend (React):** [http://localhost:5173](http://localhost:5173)
+- **Backend API (Rails):** [http://localhost:3000](http://localhost:3000)
+
+If you are running with Docker Compose, these are the default ports. If you changed the port mappings in `docker-compose.yml`, use the ports you specified there.
+
+---
+
 ## 🚀 Setup Instructions
 
 ### Prerequisites
