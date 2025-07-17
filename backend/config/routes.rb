@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   # Health check endpoint
   get '/health', to: 'health#check'
   
-  # Root endpoint
-  root 'health#check'
+  # Root endpoint - serve React app
+  root 'static_pages#index'
+  
+  # Catch all routes for React Router
+  get '*path', to: 'static_pages#catch_all', constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 end 
