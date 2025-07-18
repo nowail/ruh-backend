@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -10,11 +10,11 @@ import { UpdateAppointmentData } from '../types'
 import { ArrowLeft, User } from 'lucide-react'
 
 const schema = yup.object({
-  client_external_id: yup.string().required('Client is required'),
-  start_time: yup.string().required('Start time is required'),
-  end_time: yup.string().required('End time is required'),
-  appointment_type: yup.string().required('Appointment type is required'),
-  notes: yup.string(),
+  client_external_id: yup.string().optional(),
+  start_time: yup.string().optional(),
+  end_time: yup.string().optional(),
+  appointment_type: yup.string().optional(),
+  notes: yup.string().optional(),
 }).test('end-after-start', 'End time must be after start time', function(value) {
   if (!value.start_time || !value.end_time) return true
   return new Date(value.end_time) > new Date(value.start_time)
@@ -306,10 +306,10 @@ export function EditAppointment() {
             </button>
             <button
               type="submit"
-              disabled={updateMutation.isLoading}
+              disabled={updateMutation.isPending}
               className="btn-primary"
             >
-              {updateMutation.isLoading ? 'Updating...' : 'Update Appointment'}
+              {updateMutation.isPending ? 'Updating...' : 'Update Appointment'}
             </button>
           </div>
 

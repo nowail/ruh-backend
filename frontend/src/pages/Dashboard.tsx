@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { clientApi, appointmentApi } from '../services/api'
 import { Users, Calendar, Clock, CheckCircle } from 'lucide-react'
-import React from 'react'
+
 
 export function Dashboard() {
   const { data: clientsData } = useQuery({

@@ -94,7 +94,7 @@ export function AppointmentDetail() {
           {appointment.status === 'scheduled' && (
             <button
               onClick={handleCancel}
-              disabled={cancelMutation.isLoading}
+              disabled={cancelMutation.isPending}
               className="btn-danger"
             >
               Cancel
@@ -102,7 +102,7 @@ export function AppointmentDetail() {
           )}
           <button
             onClick={handleDelete}
-            disabled={deleteMutation.isLoading}
+            disabled={deleteMutation.isPending}
             className="btn-danger"
           >
             <Trash2 className="w-4 h-4 mr-2" />

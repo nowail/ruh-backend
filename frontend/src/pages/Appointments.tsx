@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { appointmentApi } from '../services/api'
 import { Calendar, Clock, User, Filter, Plus } from 'lucide-react'
-import React from 'react'
+
 export function Appointments() {
   const [filters, setFilters] = useState({
     status: '',
@@ -173,7 +173,7 @@ export function Appointments() {
                       <button
                         onClick={() => handleCancel(appointment.id)}
                         className="btn-danger text-sm"
-                        disabled={cancelMutation.isLoading}
+                        disabled={cancelMutation.isPending}
                       >
                         Cancel
                       </button>

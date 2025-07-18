@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { appointmentApi, clientApi } from '../services/api'
 import { CreateAppointmentData } from '../types'
 import { Calendar, Clock, User, ArrowLeft } from 'lucide-react'
-import React from 'react'
+
 
 const schema = yup.object({
   client_external_id: yup.string().required('Client is required'),
@@ -238,10 +238,10 @@ export function NewAppointment() {
             </button>
             <button
               type="submit"
-              disabled={createMutation.isLoading}
+              disabled={createMutation.isPending}
               className="btn-primary"
             >
-              {createMutation.isLoading ? 'Creating...' : 'Create Appointment'}
+              {createMutation.isPending ? 'Creating...' : 'Create Appointment'}
             </button>
           </div>
 
