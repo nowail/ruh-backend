@@ -9,8 +9,8 @@ services:
     name: wellness-platform-api
     env: ruby
     plan: free
-    buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec puma -C config/puma.rb"
+    buildCommand: "cd backend && ./bin/render-build.sh"
+    startCommand: "cd backend && bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -47,8 +47,8 @@ services:
     name: wellness-platform-worker
     env: ruby
     plan: free
-    buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec sidekiq -C config/sidekiq.yml"
+    buildCommand: "cd backend && ./bin/render-build.sh"
+    startCommand: "cd backend && bundle exec sidekiq -C config/sidekiq.yml"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
