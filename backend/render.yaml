@@ -6,7 +6,7 @@ databases:
 
 services:
   - type: web
-    name: wellness-platform-api
+    name: wellness-platform-api-v2
     env: ruby
     plan: free
     buildCommand: "cd backend && ./bin/render-build.sh"
