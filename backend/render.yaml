@@ -42,6 +42,7 @@ services:
     name: wellness-platform-redis
     plan: free
     maxmemoryPolicy: allkeys-lru
+    ipAllowList: []
 
   - type: worker
     name: wellness-platform-worker
