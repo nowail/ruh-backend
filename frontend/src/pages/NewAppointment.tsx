@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import toast from 'react-hot-toast'
 import { appointmentApi, clientApi } from '../services/api'
 import { CreateAppointmentData } from '../types'
-import { Calendar, Clock, User, ArrowLeft } from 'lucide-react'
+import { User, ArrowLeft } from 'lucide-react'
 
 
 const schema = yup.object({
@@ -33,7 +33,7 @@ const schema = yup.object({
 export function NewAppointment() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [selectedClient, setSelectedClient] = useState<any>(null)
+
 
   const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm<CreateAppointmentData>({
     resolver: yupResolver(schema),
