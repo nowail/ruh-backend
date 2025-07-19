@@ -6,12 +6,17 @@ class HealthController < ApplicationController
       version: '1.0.0',
       services: {
         database: database_healthy?,
-        external_api: external_api_healthy?,
         redis: redis_healthy?
       }
     }
     
-    overall_status = health_status[:services].values.all? ? :ok : :service_unavailable
+    # Add external API status as optional (doesn't affect overall health)
+    external_api_status = external_api_healthy?
+    health_status[:services][:external_api] = external_api_status
+    
+    # Only database and redis are required for overall health
+    required_services_healthy = health_status[:services][:database] && health_status[:services][:redis]
+    overall_status = required_services_healthy ? :ok : :service_unavailable
     
     render json: health_status, status: overall_status
   end

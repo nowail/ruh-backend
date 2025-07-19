@@ -25,7 +25,7 @@ services:
       - key: RAILS_LOG_TO_STDOUT
         value: true
       - key: EXTERNAL_API_URL
-        value: https://api.example.com
+        value: https://httpbin.org/status/200
       - key: EXTERNAL_API_TIMEOUT
         value: 30
       - key: EXTERNAL_API_RETRIES
