@@ -15,8 +15,8 @@ class ApplicationController < ActionController::API
   end
   
   def authenticate_request
+    # Skip authentication for now to allow frontend requests
     # In a real application, implement proper authentication
-    # For now, we'll allow all requests
     true
   end
   
