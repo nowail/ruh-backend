@@ -2,6 +2,11 @@ class Api::V1::AppointmentsController < ApplicationController
   before_action :set_appointment, only: [:show, :update, :destroy, :cancel]
   
   def index
+    # Check if database has any appointments, if not, seed it
+    if Appointment.count == 0
+      load Rails.root.join('db', 'seeds.rb')
+    end
+    
     appointments = Appointment.includes(:client)
     
     # Apply filters

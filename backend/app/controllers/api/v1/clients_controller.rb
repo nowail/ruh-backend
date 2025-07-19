@@ -2,6 +2,11 @@ class Api::V1::ClientsController < ApplicationController
   before_action :set_client, only: [:show]
   
   def index
+    # Check if database has any clients, if not, seed it
+    if Client.count == 0
+      load Rails.root.join('db', 'seeds.rb')
+    end
+    
     clients = Client.active.recent
     
     # Apply search filter if provided
