@@ -24,7 +24,11 @@ Rails.application.routes.draw do
 
   # Health check endpoint
   get '/health', to: 'health#check'
+  get '/test', to: 'health#test_api'
   
   # Root endpoint
   root 'health#check'
+  
+  # Development/test endpoints
+  post '/seed', to: 'health#seed_data' if Rails.env.development? || Rails.env.production?
 end 

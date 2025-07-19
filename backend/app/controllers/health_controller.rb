@@ -1,4 +1,6 @@
 class HealthController < ApplicationController
+  skip_before_action :authenticate_request, only: [:check, :test_api]
+  
   def check
     health_status = {
       status: 'healthy',
@@ -19,6 +21,27 @@ class HealthController < ApplicationController
     overall_status = required_services_healthy ? :ok : :service_unavailable
     
     render json: health_status, status: overall_status
+  end
+  
+  def test_api
+    render json: { 
+      message: "API is working!",
+      timestamp: Time.current.iso8601,
+      test_data: {
+        sample_clients: 5,
+        sample_appointments: 5
+      }
+    }
+  end
+  
+  def seed_data
+    # Load and run seeds
+    load Rails.root.join('db', 'seeds.rb')
+    render json: { 
+      message: "Database seeded successfully!",
+      clients_count: Client.count,
+      appointments_count: Appointment.count
+    }
   end
   
   private
