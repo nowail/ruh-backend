@@ -7,7 +7,7 @@ import {
   UpdateAppointmentData
 } from '../types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://wellness-platform-api.onrender.com/api/v1'
 
 class ApiError extends Error {
   constructor(public status: number, message: string) {
